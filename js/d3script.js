@@ -8,7 +8,11 @@ const svg = d3.select(".responsive-svg-container")
 const createBarChart = (data) => {
   const xScale = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.count)])
-    .rnage([0, 500]);
+    .range([0, 500]);
+  const yScale = d3.scaleBanf()
+    .domain(data.map(d => d.brand))
+    .range([0, 1600])
+    .padding(0.1); // Adjust the range to fit your SVG height
   svg
     .selectAll("rect")
     .data(data)
