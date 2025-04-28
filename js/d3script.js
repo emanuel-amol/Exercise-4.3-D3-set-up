@@ -7,7 +7,7 @@ const svg = d3.select(".responsive-svg-container")
   
 // Function to draw bar chart
 const createBarChart = (data) => {
-  // Update viewBox dynamically based on number of entries
+
   svg.attr("viewBox", `0 0 500 ${data.length * 30}`);
 
   const xScale = d3.scaleLinear()
@@ -17,19 +17,40 @@ const createBarChart = (data) => {
   const yScale = d3.scaleBand()
     .domain(data.map(d => d.brand))
     .range([0, data.length * 30])
-    .padding(0.2);  // More padding
-  
+    .padding(0.2);
 
-  svg
-    .selectAll("rect")
+  const barAndLabel = svg
+    .selectAll("g")
     .data(data)
-    .join("rect")
-    .attr("class", d => `bar bar-${d.count}`)
+    .join("g")
+    .attr("transform", d => `translate(0, ${yScale(d.brand)})`);
+
+  barAndLabel
+    .append("rect")
     .attr("x", 0)
-    .attr("y", d => yScale(d.brand))
+    .attr("y", 0)
     .attr("width", d => xScale(d.count))
     .attr("height", yScale.bandwidth())
     .attr("fill", "blue");
+
+  barAndLabel
+    .append("text")
+    .text(d => d.brand)
+    .attr("x", -10)
+    .attr("y", yScale.bandwidth() / 2)
+    .attr("text-anchor", "end")
+    .attr("alignment-baseline", "middle")
+    .style("font-family", "sans-serif")
+    .style("font-size", "13px");
+
+  barAndLabel
+    .append("text")
+    .text(d => d.count)
+    .attr("x", d => xScale(d.count) + 4)
+    .attr("y", yScale.bandwidth() / 2)
+    .attr("alignment-baseline", "middle")
+    .style("font-family", "sans-serif")
+    .style("font-size", "13px");
 };
 
 // Load data
