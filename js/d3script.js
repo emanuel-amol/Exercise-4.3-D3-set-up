@@ -1,46 +1,48 @@
-// Create SVG inside the responsive container
+// Create SVG once
 const svg = d3.select(".responsive-svg-container")
   .append("svg")
-  .attr("viewBox", "0 0 500 1600")   // Make it scalable
-  .style("border", "1px solid black"); // For testing boundary
+  .attr("viewBox", "0 0 500 1600") // Initial viewBox
+  .style("border", "1px solid black");
 
-// Define the createBarChart function FIRST
+// Function to draw bar chart
 const createBarChart = (data) => {
+  // Update viewBox dynamically based on number of entries
+  svg.attr("viewBox", `0 0 500 ${data.length * 30}`);
+
   const xScale = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.count)])
     .range([0, 500]);
-  const yScale = d3.scaleBanf()
+
+  const yScale = d3.scaleBand()
     .domain(data.map(d => d.brand))
-    .range([0, 1600])
-    .padding(0.1); // Adjust the range to fit your SVG height
+    .range([0, data.length * 30])
+    .padding(0.1);
+
   svg
     .selectAll("rect")
     .data(data)
     .join("rect")
     .attr("class", d => `bar bar-${d.count}`)
     .attr("x", 0)
-    .attr("y", (d => yScale(d.brand))        // Space each bar 30px apart vertically
-    .attr("width", d => d.count)        // Width depends on count
-    .attr("height", yScale.bandwidth())                 // Fixed bar height
-    .attr("fill", "blue");              // Color
+    .attr("y", d => yScale(d.brand))
+    .attr("width", d => xScale(d.count))
+    .attr("height", yScale.bandwidth())
+    .attr("fill", "blue");
 };
 
-// Now load the CSV data
-d3.csv("./data/tvBrandCount.csv", d => {
-  return {
-    brand: d.brand,     // must match CSV exactly
-    count: +d.count     // convert count from string to number
-  };
-}).then(data => {
-  console.log(data); // Check if data loaded
+// Load data
+d3.csv("./data/tvBrandCount.csv", d => ({
+  brand: d.brand,
+  count: +d.count
+})).then(data => {
+  console.log(data);
   console.log("Number of entries:", data.length);
   console.log("Max count:", d3.max(data, d => d.count));
   console.log("Min count:", d3.min(data, d => d.count));
   console.log("Extent (min, max):", d3.extent(data, d => d.count));
 
-  // Now create the bar chart
+  // Draw chart
   createBarChart(data);
 }).catch(error => {
   console.error("Error loading the CSV file:", error);
 });
-
