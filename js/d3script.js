@@ -6,6 +6,9 @@ const svg = d3.select(".responsive-svg-container")
 
 // Define the createBarChart function FIRST
 const createBarChart = (data) => {
+  const xScale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.count)])
+    .rnage([0, 500]);
   svg
     .selectAll("rect")
     .data(data)
