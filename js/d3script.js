@@ -26,4 +26,9 @@ d3.csv("./data/tvBrandCount.csv", d=> {
 createBarChart(data);
 const createBarChart = (data) => {
   console.log("Ready to build bar chart", data);
+  svg
+    .selectAll("rect")
+    .data(data)
+    .join("rect")
+    .attr("class", d => 'bar bar-${d.count}');
 };
