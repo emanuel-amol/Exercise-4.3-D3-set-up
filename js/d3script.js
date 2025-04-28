@@ -36,7 +36,8 @@ const createBarChart = (data) => {
   barAndLabel
     .append("text")
     .text(d => d.brand)
-    .attr("x", -10)
+    .attr("x", 490)
+    .attr("fill", "black")
     .attr("y", yScale.bandwidth() / 2)
     .attr("text-anchor", "end")
     .attr("alignment-baseline", "middle")
