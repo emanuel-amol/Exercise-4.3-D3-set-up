@@ -4,6 +4,7 @@ const svg = d3.select(".responsive-svg-container")
   .attr("viewBox", "0 0 500 1600") // Initial viewBox
   .style("border", "1px solid black");
 
+  
 // Function to draw bar chart
 const createBarChart = (data) => {
   // Update viewBox dynamically based on number of entries
@@ -16,7 +17,8 @@ const createBarChart = (data) => {
   const yScale = d3.scaleBand()
     .domain(data.map(d => d.brand))
     .range([0, data.length * 30])
-    .padding(0.1);
+    .padding(0.2);  // More padding
+  
 
   svg
     .selectAll("rect")
@@ -35,14 +37,15 @@ d3.csv("./data/tvBrandCount.csv", d => ({
   brand: d.brand,
   count: +d.count
 })).then(data => {
-  console.log(data);
-  console.log("Number of entries:", data.length);
-  console.log("Max count:", d3.max(data, d => d.count));
-  console.log("Min count:", d3.min(data, d => d.count));
-  console.log("Extent (min, max):", d3.extent(data, d => d.count));
+  // Sort by count descending
+  data.sort((a, b) => b.count - a.count);
+  data = data.sort((a, b) => b.count - a.count).slice(0, 10);
 
-  // Draw chart
+
+  // (Optional) Keep only Top 10
+  // data = data.slice(0, 10);
+
+  console.log(data);
+
   createBarChart(data);
-}).catch(error => {
-  console.error("Error loading the CSV file:", error);
 });
