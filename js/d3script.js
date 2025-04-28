@@ -17,4 +17,8 @@ d3.csv("./data/tvBrandCount.csv", d=> {
   };
 }).then(data => {
   console.log(data);
+  console.log(data.length); // How many rows
+  console.log(d3.max(data, d => d.count)); // Maximum count
+  console.log(d3.min(data, d => d.count)); // Minimum count
+  console.log(d3.extent(data, d => d.count)); // [min, max]
 });
