@@ -31,4 +31,8 @@ const createBarChart = (data) => {
     .data(data)
     .join("rect")
     .attr("class", d => 'bar bar-${d.count}');
-};
+    .attr("x", 0)           // All bars start from x = 0
+    .attr("y", (d, i) => i * 30) // Space bars vertically by 30 pixels
+    .attr("width", d => d.count) // Width based on count value
+    .attr("height", 20)     // Fixed height for each bar
+    .attr("fill", "blue");  // Fill color for bars
