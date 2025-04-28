@@ -18,7 +18,7 @@ navLinks.forEach(link => {
 
 // Function to fetch and display CSV data
 function fetchAndDisplayCSV() {
-    fetch('data/tv_2025_03_18 - Clean.csv')
+    fetch('data/tvBrandCount.csv')
         .then(response => response.text())
         .then(data => {
             const rows = data.split('\n');
