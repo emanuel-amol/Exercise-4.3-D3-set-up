@@ -9,3 +9,12 @@ svg.append("rect")
   .attr("width", 414)
   .attr("height", 16)
   .attr("fill", "blue");
+
+d3.csv("./data/tvBrandCount.csv", d=> {
+  return {
+    brand: d.brand,
+    count: +d.count
+  };
+}).then(data => {
+  console.log(data);
+});
