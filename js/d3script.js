@@ -22,3 +22,8 @@ d3.csv("./data/tvBrandCount.csv", d=> {
   console.log(d3.min(data, d => d.count)); // Minimum count
   console.log(d3.extent(data, d => d.count)); // [min, max]
 });
+
+createBarChart(data);
+const createBarChart = (data) => {
+  console.log("Ready to build bar chart", data);
+};
