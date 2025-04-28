@@ -1,0 +1,5 @@
+const svg = d3.select(".responsive-svg-container")
+  .append("svg")
+  .attr("viewbox", "0 0 1200 1600")
+  .style("border", "1px solid black");
+
