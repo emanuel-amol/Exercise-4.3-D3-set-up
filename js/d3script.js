@@ -1,7 +1,7 @@
 // Create SVG inside the responsive container
 const svg = d3.select(".responsive-svg-container")
   .append("svg")
-  .attr("viewBox", "0 0 1200 1600")   // Make it scalable
+  .attr("viewBox", "0 0 500 1600")   // Make it scalable
   .style("border", "1px solid black"); // For testing boundary
 
 // Define the createBarChart function FIRST
@@ -36,3 +36,4 @@ d3.csv("./data/tvBrandCount.csv", d => {
 }).catch(error => {
   console.error("Error loading the CSV file:", error);
 });
+
