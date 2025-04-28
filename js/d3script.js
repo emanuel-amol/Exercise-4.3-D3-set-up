@@ -19,9 +19,9 @@ const createBarChart = (data) => {
     .join("rect")
     .attr("class", d => `bar bar-${d.count}`)
     .attr("x", 0)
-    .attr("y", (d, i) => i * 30)        // Space each bar 30px apart vertically
+    .attr("y", (d => yScale(d.brand))        // Space each bar 30px apart vertically
     .attr("width", d => d.count)        // Width depends on count
-    .attr("height", 20)                 // Fixed bar height
+    .attr("height", yScale.bandwidth())                 // Fixed bar height
     .attr("fill", "blue");              // Color
 };
 
