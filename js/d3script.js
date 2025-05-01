@@ -1,13 +1,12 @@
 // Create SVG once
+// Create SVG once
 const svg = d3.select(".responsive-svg-container")
   .append("svg")
   .attr("viewBox", "0 0 500 1600") // Initial viewBox
   .style("border", "1px solid black");
 
-  
 // Function to draw bar chart
 const createBarChart = (data) => {
-
   svg.attr("viewBox", `0 0 500 ${data.length * 30}`);
 
   const xScale = d3.scaleLinear()
@@ -25,14 +24,16 @@ const createBarChart = (data) => {
     .join("g")
     .attr("transform", d => `translate(0, ${yScale(d.brand)})`);
 
+  // Append bars with updated color
   barAndLabel
     .append("rect")
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", d => xScale(d.count))
     .attr("height", yScale.bandwidth())
-    .attr("fill", "blue");
+    .attr("fill", "#16a085"); // Teal color compatible with orange
 
+  // Append brand names
   barAndLabel
     .append("text")
     .text(d => d.brand)
@@ -44,6 +45,7 @@ const createBarChart = (data) => {
     .style("font-family", "sans-serif")
     .style("font-size", "13px");
 
+  // Append counts
   barAndLabel
     .append("text")
     .text(d => d.count)
@@ -61,13 +63,16 @@ d3.csv("./data/tvBrandCount.csv", d => ({
 })).then(data => {
   // Sort by count descending
   data.sort((a, b) => b.count - a.count);
-  data = data.sort((a, b) => b.count - a.count).slice(0, 10);
-
-
-  // (Optional) Keep only Top 10
-  // data = data.slice(0, 10);
 
   console.log(data);
 
-  createBarChart(data);
+  createBarChart(data); // Pass the full dataset
 });
+// Update bar color to teal
+barAndLabel
+  .append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", d => xScale(d.count))
+  .attr("height", yScale.bandwidth())
+  .attr("fill", "#16a085");
